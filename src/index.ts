@@ -1,7 +1,9 @@
 import "dotenv/config";
 import { client } from "./core/client.js";
+import { registerCommands } from "./commands/index.js";
 import { registerEvents } from "./events/register.js";
 
+registerCommands();
 registerEvents();
 
 const token = process.env.DISCORD_TOKEN;
