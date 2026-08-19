@@ -1,9 +1,8 @@
 import "dotenv/config";
 import { client } from "./core/client.js";
+import { registerEvents } from "./events/register.js";
 
-client.once("clientReady", (bot) => {
-  console.log(`MYCTRA ONLINE: ${bot.user.tag}`);
-});
+registerEvents();
 
 const token = process.env.DISCORD_TOKEN;
 
