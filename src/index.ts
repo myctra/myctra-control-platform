@@ -2,14 +2,10 @@ import "dotenv/config";
 import { client } from "./core/client.js";
 import { registerCommands } from "./commands/index.js";
 import { registerEvents } from "./events/register.js";
+import { validateEnvironment, env } from "./config/index.js";
 
-const token = process.env.DISCORD_TOKEN;
-
-if (!token) {
-  throw new Error("DISCORD_TOKEN is missing from .env");
-}
-
+validateEnvironment();
 registerCommands();
-registerEvents(token);
+registerEvents(env.discordToken!);
 
-client.login(token);
+client.login(env.discordToken!);
