@@ -1,9 +1,16 @@
 import { client } from "../core/client.js";
 import { handleCommand } from "../commands/handler.js";
+import { deployCommands } from "../commands/deployer.js";
 
-export function registerEvents(): void {
-  client.once("clientReady", (bot) => {
+export function registerEvents(token: string): void {
+  client.once("clientReady", async (bot) => {
     console.log(`MYCTRA ONLINE: ${bot.user.tag}`);
+
+    try {
+      await deployCommands(token, bot.user.id);
+    } catch (error) {
+      console.error("MYCTRA COMMAND DEPLOYMENT ERROR:", error);
+    }
   });
 
   client.on("interactionCreate", async (interaction) => {
