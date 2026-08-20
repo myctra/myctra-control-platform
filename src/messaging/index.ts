@@ -8,3 +8,4 @@ export * from './schema.js';
 export * from './validator.js';
 export { text,separator,media,container,button,stringSelect,userSelect,roleSelect,channelSelect,mentionableSelect,embed } from './studio.js';
 export type { MyctraStudioElement,MyctraStudioImage,MyctraStudioEmbed,MyctraStudioButton,MyctraStudioSelect,MyctraStudioWebhook,MyctraStudioMessage,MyctraStudioTemplate } from './studio.js';
+export { renderMessage } from './renderer.js';
