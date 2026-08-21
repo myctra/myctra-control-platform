@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>MYCTRA Message Builder</title>
+    <link rel="stylesheet" href="/builder.css?v=myctra-final-1">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const icons = {
+            text: "ph-text-t",
+            image: "ph-image",
+            separator: "ph-minus",
+            button: "ph-cursor-click",
+            select: "ph-list",
+            "channel-select": "ph-hash",
+            "user-select": "ph-user",
+            "role-select": "ph-shield",
+            "mentionable-select": "ph-users-three",
+            section: "ph-layout"
+        };
+        document.querySelectorAll("[data-add]").forEach(function (item) {
+            const name = item.dataset.add;
+            const icon = icons[name];
+            if (!icon) return;
+            const holder = item.querySelector("span");
+            if (!holder) return;
+            holder.innerHTML = "";
+            const i = document.createElement("i");
+            i.className = "ph " + icon;
+            holder.appendChild(i);
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div class="app">
+
+        <header class="topbar">
+            <div class="brand">
+                <div class="brand-logo">M</div>
+
+                <div>
+                    <div class="brand-title">MYCTRA</div>
+                    <div class="brand-subtitle">Message Builder</div>
+                </div>
+            </div>
+
+            <div class="top-actions">
+                <button id="saveButton" class="button secondary">
+                    Save
+                </button>
+
+                <button id="previewButton" class="button secondary">
+                    Preview
+                </button>
+
+                <button id="clearButton" class="button danger">
+                    Clear
+                </button>
+            </div>
+        </header>
+
+        <main class="workspace">
+
+            <aside class="sidebar left-panel">
+
+                <div class="panel-header">
+                    <h2>Add Element</h2>
+                    <p>Build your message freely.</p>
+                </div>
+
+                <div class="element-grid">
+
+                    <button
+                        class="element-button"
+                        data-add="text"
+                    >
+                        <span> T </span>
+                        <strong>Text</strong>
+                        <small>Text display</small>
+                    </button>
+
+                    <button
+                        class="element-button"
+                        data-add="image"
+                    >
+                        <span>IMG</span>
+                        <strong>Image</strong>
+                        <small>Media image</small>
+                    </button>
+
+                    <button
+                        class="element-button"
+                        data-add="separator"
+                    >
+                        <span>—</span>
+                        <strong>Separator</strong>
+                        <small>Visual divider</small>
+                    </button>
+
+                    <button
+                        class="element-button"
+                        data-add="button"
+                    >
+                        <span>BTN</span>
+                        <strong>Button</strong>
+                        <small>Interactive button</small>
+                    </button>
+
+                    <button
+                        class="element-button"
+                        data-add="select"
+                    >
+                        <span>SEL</span>
+                        <strong>Select</strong>
+                        <small>String select</small>
+                    </button>
+
+                    <button
+                        class="element-button"
+                        data-add="channel-select"
+                    >
+                        <span>#</span>
+                        <strong>Channel Select</strong>
+                        <small>Choose a channel</small>
+                    </button>
+
+                    <button
+                        class="element-button"
+                        data-add="user-select"
+                    >
+                        <span>@</span>
+                        <strong>User Select</strong>
+                        <small>Choose a user</small>
+                    </button>
+
+                    <button
+                        class="element-button"
+                        data-add="role-select"
+                    >
+                        <span>R</span>
+                        <strong>Role Select</strong>
+                        <small>Choose a role</small>
+                    </button>
+
+                    <button
+                        class="element-button"
+                        data-add="mentionable-select"
+                    >
+                        <span>M</span>
+                        <strong>Mentionable</strong>
+                        <small>User or role</small>
+                    </button>
+
+                    <button
+                        class="element-button"
+                        data-add="section"
+                    >
+                        <span>S</span>
+                        <strong>Section</strong>
+                        <small>Text + accessory</small>
+                    </button>
+                </div>
+
+            </aside>
+
+            <section class="canvas-panel">
+
+                <div class="canvas-header">
+                    <div>
+                        <h2>Message</h2>
+                        <p id="elementCount">0 elements</p>
+                    </div>
+
+                    <div class="status">
+                        <span class="status-dot"></span>
+                        Draft
+                    </div>
+                </div>
+
+                <div class="message-stage">
+
+                    <div id="emptyState" class="empty-state">
+                        <div class="empty-icon">+</div>
+                        <h3>Your message is empty</h3>
+                        <p>
+                            Add any element from the left.
+                            You can use them in any order.
+                        </p>
+                    </div>
+
+                    <div
+                        id="messageCanvas"
+                        class="message-canvas"
+                    ></div>
+
+                </div>
+
+            </section>
+
+            <aside class="sidebar right-panel">
+
+                <div class="panel-header">
+                    <h2>Properties</h2>
+                    <p id="selectedLabel">
+                        Select an element
+                    </p>
+                </div>
+
+                <div
+                    id="properties"
+                    class="properties"
+                >
+                    <div class="property-empty">
+                        Select an element from the message
+                        to edit its properties.
+                    </div>
+                </div>
+
+            </aside>
+
+        </main>
+
+    </div>
+
+    <div
+        id="toast"
+        class="toast"
+    ></div>
+
+    <script src="/builder.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const icons = {
+        text: "ph-text-t",
+        image: "ph-image",
+        separator: "ph-minus",
+        button: "ph-cursor-click",
+        select: "ph-list",
+        "channel-select": "ph-hash",
+        "user-select": "ph-user",
+        "role-select": "ph-shield",
+        "mentionable-select": "ph-users-three",
+        section: "ph-layout"
+    };
+
+    document.querySelectorAll("[data-add]").forEach(function (item) {
+        const type = item.dataset.add;
+        const holder = item.querySelector("span");
+        if (!holder || !icons[type]) return;
+        holder.innerHTML = "";
+        const icon = document.createElement("i");
+        icon.className = "ph " + icons[type];
+        holder.appendChild(icon);
+    });
+
+    const properties = document.querySelector(".properties");
+    if (properties && !document.querySelector(".myctra-webhook-card")) {
+        const card = document.createElement("section");
+        card.className = "myctra-webhook-card";
+        card.innerHTML = `
+            <div class="webhook-icon"><i class="ph ph-webhooks-logo"></i></div>
+            <h3>Webhook</h3>
+            <p>Connection information for this message builder.</p>
+            <div class="webhook-row"><span>Status</span><span class="webhook-value">Ready</span></div>
+            <div class="webhook-row"><span>Endpoint</span><span class="webhook-value">MYCTRA</span></div>
+            <div class="webhook-row"><span>Method</span><span class="webhook-value">POST</span></div>
+        `;
+        properties.appendChild(card);
+    }
+});
+</script>
+</body>
+</html>
